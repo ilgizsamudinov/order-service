@@ -1,0 +1,37 @@
+@host = http://localhost:8080
+@productId = 1
+
+###
+POST {{host}}/api/products
+Content-Type: application/json
+
+{
+  "title": "Samsung Galaxy S24",
+  "description": "Samsung smartphone",
+  "price": 500.00,
+  "sku": "SGS24-001",
+  "weight": 0.167
+}
+
+###
+GET {{host}}/api/products/{{productId}}
+Accept: application/json
+
+###
+GET {{host}}/api/products?page=0&size=10
+Accept: application/json
+
+###
+PUT {{host}}/api/products/{{productId}}
+Content-Type: application/json
+
+{
+  "title": "iPhone 15 Pro",
+  "description": "Apple smartphone updated",
+  "price": 1199.99,
+  "sku": "IP15PRO-001",
+  "weight": 0.221
+}
+
+###
+DELETE {{host}}/api/products/{{productId}}
