@@ -3,41 +3,40 @@ package org.example.orderservice.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
+@Table(name = "shipments")
 @Getter
 @Setter
 @Builder
-@Table(name = "shipments")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Shipment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "order_id", nullable = false, unique = true)
-    private Long orderId;
+    @OneToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
 
-    @Column(name = "tracking_number", unique = true)
-    private String trackingNumber;
-
-    @Enumerated(EnumType.STRING)
-    @Column
-    private ShipmentCarrier carrier;
-
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = CarrierTypeConverter.class)
     @Column(nullable = false)
-    private ShipmentStatus status;
+    private CarrierType carrierType;
 
-    @Column(name = "shipping_address", nullable = false, length = 500)
-    private String shippingAddress;
 
-    @Column(name = "shipped_at")
-    private LocalDateTime shippedAt;
+    @Column(nullable = false)
+    private String originAddress;
 
-    @Column(name = "delivered_at")
-    private LocalDateTime deliveredAt;
+    @Column(nullable = false)
+    private String destinationAddress;
+
+
+    @Column(nullable = false, precision = 10, scale = 3)
+    private BigDecimal totalWeight;
+
+    @Column(nullable = false, precision = 19, scale = 2)
+    private BigDecimal deliveryPrice;
 }

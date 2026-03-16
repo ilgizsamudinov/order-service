@@ -1,18 +1,28 @@
 package org.example.orderservice.dto.shipment;
 
-import org.example.orderservice.model.ShipmentCarrier;
-import org.example.orderservice.model.ShipmentStatus;
 
-import java.time.LocalDateTime;
+import lombok.*;
 
-public record ShipmentResponse(
-        Long id,
-        Long orderId,
-        String trackingNumber,
-        ShipmentCarrier carrier,
-        ShipmentStatus status,
-        String shippingAddress,
-        LocalDateTime shippedAt,
-        LocalDateTime deliveredAt
-) {
+import java.math.BigDecimal;
+
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class ShipmentResponse {
+
+    private Long id;
+
+    private Long orderId;
+
+    private String carrierType;
+
+    private String originAddress;
+
+    private String destinationAddress;
+
+    private BigDecimal totalWeight;
+
+    private BigDecimal deliveryPrice;
 }

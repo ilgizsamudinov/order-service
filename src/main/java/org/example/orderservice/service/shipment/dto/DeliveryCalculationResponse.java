@@ -1,10 +1,12 @@
-package org.example.orderservice.dto.shipment;
+package org.example.orderservice.service.shipment.dto;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.orderservice.model.CarrierType;
+import org.example.orderservice.model.DeliveryTariff;
 
 import java.math.BigDecimal;
 
@@ -12,15 +14,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ShipmentRequest {
+public class DeliveryCalculationResponse {
 
-    private Long orderId;
-
-    private String originAddress;
-
-    private String destinationAddress;
-
-    private BigDecimal totalWeight;
-
+    private BigDecimal price;
     private CarrierType carrierType;
 }
