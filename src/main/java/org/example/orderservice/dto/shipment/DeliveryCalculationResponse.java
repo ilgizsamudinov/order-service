@@ -1,14 +1,20 @@
-package org.example.orderservice.service.shipment.dto;
+package org.example.orderservice.dto.shipment;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.example.orderservice.model.CarrierType;
 
 import java.math.BigDecimal;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
-public class DeliveryCalculationRequest {
-    private Long orderId;
+@Setter
+public class DeliveryCalculationResponse {
+
+    private BigDecimal price;
     private CarrierType carrierType;
 }

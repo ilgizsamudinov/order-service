@@ -3,19 +3,23 @@ package org.example.orderservice.service;
 import lombok.RequiredArgsConstructor;
 import org.example.orderservice.dto.shipment.ShipmentRequest;
 import org.example.orderservice.exception.NotFoundException;
-import org.example.orderservice.factory.DeliveryPriceStrategyFactory;
 import org.example.orderservice.model.CarrierType;
 import org.example.orderservice.model.DeliveryTariff;
 import org.example.orderservice.model.Order;
 import org.example.orderservice.model.Shipment;
 import org.example.orderservice.repository.DeliveryTariffRepository;
 import org.example.orderservice.repository.ShipmentRepository;
-import org.example.orderservice.service.shipment.DeliveryPriceStrategy;
+import org.example.orderservice.service.shipment.DeliveryStrategy;
 import org.example.orderservice.service.shipment.OrderWeightCalculator;
-import org.example.orderservice.service.shipment.dto.DeliveryCalculationResponse;
+import org.example.orderservice.dto.shipment.DeliveryCalculationResponse;
+import org.example.orderservice.dto.shipment.DeliveryRequest;
+import org.example.orderservice.service.shipment.strategy.cdec.dto.TariffListResponse;
+import org.example.orderservice.dto.shipment.TariffRequest;
+import org.example.orderservice.service.shipment.factory.DeliveryFactory;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +27,7 @@ public class ShipmentService {
 
     private final ShipmentRepository shipmentRepository;
     private final DeliveryTariffRepository deliveryTariffRepository;
-    private final DeliveryPriceStrategyFactory strategyFactory;
+    private final DeliveryFactory strategyFactory;
     private final OrderService orderService;
     private final OrderWeightCalculator orderWeightCalculator;
 
@@ -52,8 +56,6 @@ public class ShipmentService {
 
 
 
-
-
     public DeliveryCalculationResponse calculatePrice(Long orderId, CarrierType carrierType) {
 
         Order order = orderService.getOrderById(orderId);
@@ -66,8 +68,29 @@ public class ShipmentService {
                         "Tariff not found for carrier=" + carrierType
                 ));
 
-        DeliveryPriceStrategy strategy = strategyFactory.getStrategy(carrierType);
+        DeliveryStrategy strategy = strategyFactory.getStrategy(carrierType);
 
         return strategy.calculate(orderWeight, deliveryTariff);
     }
+
+    public List<TariffListResponse> calculateCdekTariffList(BigDecimal orderWeight, DeliveryRequest deliveryRequest) {
+        DeliveryStrategy strategy = strategyFactory.getStrategy(CarrierType.CDEK);
+        return strategy.calculateTariffList(orderWeight, deliveryRequest);
+    }
+
+
+    public DeliveryCalculationResponse calculatePrice2(Long orderId, TariffRequest tariffRequest) {
+
+        Order order = orderService.getOrderById(orderId);
+        BigDecimal orderWeight = orderWeightCalculator.calculate(order);
+
+
+        DeliveryStrategy strategy = strategyFactory.getStrategy(tariffRequest.getCarrierType());
+
+
+        return strategy.calculate2(orderWeight, tariffRequest);
+    }
+
+
+
 }

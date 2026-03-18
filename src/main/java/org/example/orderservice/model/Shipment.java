@@ -33,7 +33,6 @@ public class Shipment {
     @Column(nullable = false)
     private String destinationAddress;
 
-
     @Column(nullable = false, precision = 10, scale = 3)
     private BigDecimal totalWeight;
 

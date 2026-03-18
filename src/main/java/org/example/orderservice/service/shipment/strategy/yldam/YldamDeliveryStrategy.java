@@ -2,15 +2,15 @@ package org.example.orderservice.service.shipment.strategy.yldam;
 
 import org.example.orderservice.model.CarrierType;
 import org.example.orderservice.model.DeliveryTariff;
-import org.example.orderservice.service.shipment.DeliveryPriceStrategy;
-import org.example.orderservice.service.shipment.dto.DeliveryCalculationResponse;
+import org.example.orderservice.service.shipment.DeliveryStrategy;
+import org.example.orderservice.dto.shipment.DeliveryCalculationResponse;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 @Component
-public class YldamDeliveryPriceStrategy implements DeliveryPriceStrategy {
+public class YldamDeliveryStrategy implements DeliveryStrategy {
 
     @Override
     public CarrierType getCarrierType() {
