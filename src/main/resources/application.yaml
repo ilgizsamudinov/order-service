@@ -10,3 +10,8 @@ spring:
       ddl-auto: update
     show-sql: true
 
+cdek:
+  base-url: https://api.edu.cdek.ru/v2
+  client-id: wqGwiQx0gg8mLtiEKsUinjVSICCjtTEP
+  client-secret: RmAmgvSgSl1yirlz9QupbzOJVqhCxcP5
+
