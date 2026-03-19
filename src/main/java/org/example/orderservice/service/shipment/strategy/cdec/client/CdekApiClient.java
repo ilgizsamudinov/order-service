@@ -1,6 +1,8 @@
 package org.example.orderservice.service.shipment.strategy.cdec.client;
 
 import lombok.RequiredArgsConstructor;
+import org.example.orderservice.exception.ApplicationException;
+import org.example.orderservice.exception.ExternalServiceException;
 import org.example.orderservice.exception.NotFoundException;
 import org.example.orderservice.service.shipment.strategy.cdec.dto.CdekCityResponse;
 import org.example.orderservice.service.shipment.strategy.cdec.dto.CdekTariffListRequest;
@@ -11,8 +13,12 @@ import org.example.orderservice.service.shipment.strategy.cdec.dto.CdekTariffRes
 import org.example.orderservice.service.shipment.strategy.cdec.service.CdekAuthService;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestClientResponseException;
 
 import java.util.List;
 
@@ -45,35 +51,66 @@ public class CdekApiClient {
     public List<TariffListResponse> calculateTariffList(CdekTariffListRequest request) {
         String accessToken = cdekAuthService.getAccessToken();
 
-        CdekTariffListWrapperResponse response = cdekRestClient.post()
-                .uri("/calculator/tarifflist")
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                .body(request)
-                .retrieve()
-                .body(CdekTariffListWrapperResponse.class);
+        try {
+            CdekTariffListWrapperResponse response = cdekRestClient.post()
+                    .uri("/calculator/tarifflist")
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                    .body(request)
+                    .retrieve()
+                    .body(CdekTariffListWrapperResponse.class);
 
-        if (response == null || response.tariffCodes() == null) {
-            throw new NotFoundException("CDEK did not return tariff list");
+            if (response == null || response.tariffCodes() == null) {
+                throw new NotFoundException("CDEK did not return tariff list");
+            }
+
+            return response.tariffCodes();
+        } catch (HttpClientErrorException exception) {
+            String message = exception.getResponseBodyAsString();
+            if (message == null || message.isBlank()) {
+                message = exception.getStatusText();
+            }
+            throw new ApplicationException(HttpStatus.valueOf(exception.getStatusCode().value()), message);
+        } catch (RestClientResponseException exception) {
+            String message = exception.getResponseBodyAsString();
+            if (message == null || message.isBlank()) {
+                message = "CDEK request failed";
+            }
+            throw new ExternalServiceException(message);
+        } catch (RestClientException exception) {
+            throw new ExternalServiceException("CDEK is temporarily unavailable");
         }
-
-        return response.tariffCodes();
     }
 
     public CdekTariffResponse calculateTariff(CdekTariffRequest request) {
         String accessToken = cdekAuthService.getAccessToken();
 
-        CdekTariffResponse response = cdekRestClient.post()
-                .uri("/calculator/tariff")
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                .body(request)
-                .retrieve()
-                .body(CdekTariffResponse.class);
+        try {
+            CdekTariffResponse response = cdekRestClient.post()
+                    .uri("/calculator/tariff")
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                    .body(request)
+                    .retrieve()
+                    .body(CdekTariffResponse.class);
 
-        if (response == null) {
-            throw new NotFoundException("CDEK did not return tariff calculation");
+            if (response == null) {
+                throw new NotFoundException("CDEK did not return tariff calculation");
+            }
+
+            return response;
+        } catch (HttpClientErrorException exception) {
+            String message = exception.getResponseBodyAsString();
+            if (message == null || message.isBlank()) {
+                message = exception.getStatusText();
+            }
+            throw new ApplicationException(HttpStatus.valueOf(exception.getStatusCode().value()), message);
+        } catch (RestClientResponseException exception) {
+            String message = exception.getResponseBodyAsString();
+            if (message == null || message.isBlank()) {
+                message = "CDEK request failed";
+            }
+            throw new ExternalServiceException(message);
+        } catch (RestClientException exception) {
+            throw new ExternalServiceException("CDEK is temporarily unavailable");
         }
-
-        return response;
     }
-
 }
