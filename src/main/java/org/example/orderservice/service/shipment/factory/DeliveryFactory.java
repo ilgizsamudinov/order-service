@@ -1,6 +1,6 @@
 package org.example.orderservice.service.shipment.factory;
 
-import org.example.orderservice.model.CarrierType;
+import org.example.orderservice.model.enums.CarrierType;
 import org.example.orderservice.service.shipment.DeliveryStrategy;
 import org.springframework.stereotype.Component;
 

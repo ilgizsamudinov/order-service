@@ -2,6 +2,8 @@ package org.example.orderservice.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.orderservice.model.persistence.converter.CarrierTypeConverter;
+import org.example.orderservice.model.enums.CarrierType;
 
 import java.math.BigDecimal;
 

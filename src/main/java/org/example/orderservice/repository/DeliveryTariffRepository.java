@@ -1,6 +1,6 @@
 package org.example.orderservice.repository;
 
-import org.example.orderservice.model.CarrierType;
+import org.example.orderservice.model.enums.CarrierType;
 import org.example.orderservice.model.DeliveryTariff;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
