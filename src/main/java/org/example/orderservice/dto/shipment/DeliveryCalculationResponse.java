@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.orderservice.model.CarrierType;
+import org.example.orderservice.model.enums.CarrierType;
 
 import java.math.BigDecimal;
 

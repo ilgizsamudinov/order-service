@@ -2,13 +2,16 @@ package org.example.orderservice.repository;
 
 import org.example.orderservice.dto.order.OrderDetailsResponse;
 import org.example.orderservice.dto.order.OrderListView;
+import org.example.orderservice.dto.order.OrderWeightView;
 import org.example.orderservice.model.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Repository
@@ -19,7 +22,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             select
                 o.id as id,
                 o.order_status as orderStatus,
-                o.total_amount as totalAmount,
                 o.created_at as createdAt,
                 o.updated_at as updatedAt
             from orders o
@@ -47,11 +49,12 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             order by o.created_at desc
             """,
             countQuery = """
-            select count(*)
-            from orders
-            """,
+                    select count(*)
+                    from orders
+                    """,
             nativeQuery = true)
     Page<OrderListView> findAllOrders(Pageable pageable);
+
 }
 
 

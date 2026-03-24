@@ -15,7 +15,6 @@ public class CityController {
 
     private final CityService cityService;
 
-
     @GetMapping("/sync-cities")
     public ResponseEntity<Void> syncCities(){
         cityService.syncCities();

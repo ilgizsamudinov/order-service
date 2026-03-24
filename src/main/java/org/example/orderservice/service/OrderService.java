@@ -3,10 +3,7 @@ package org.example.orderservice.service;
 import lombok.RequiredArgsConstructor;
 import org.example.orderservice.dto.order.OrderDetailsResponse;
 import org.example.orderservice.dto.order.OrderListView;
-import org.example.orderservice.dto.order.OrderResponse;
 import org.example.orderservice.exception.NotFoundException;
-import org.example.orderservice.mapper.MapperUtil;
-import org.example.orderservice.mapper.OrderMapper;
 import org.example.orderservice.model.Order;
 import org.example.orderservice.model.User;
 import org.example.orderservice.repository.OrderRepository;
@@ -16,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.LocalDateTime;
 
@@ -28,7 +24,6 @@ public class OrderService {
     private final UserService userService;
     private final Clock clock;
 
-    private final MapperUtil mapperUtil;
 
     @Transactional
     public Order createOrder(Long userId) {

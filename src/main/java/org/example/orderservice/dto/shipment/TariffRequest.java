@@ -1,15 +1,14 @@
 package org.example.orderservice.dto.shipment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.orderservice.model.enums.CarrierType;
 import org.example.orderservice.service.shipment.strategy.cdec.dto.LocationRequest;
-import org.example.orderservice.service.shipment.strategy.cdec.dto.PackageRequest;
-import org.example.orderservice.model.CarrierType;
-
-import java.util.List;
 
 
 @Getter
@@ -17,12 +16,19 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TariffRequest{
+    @NotNull
     CarrierType carrierType;
+
     @JsonProperty("tariff_code")
     Integer tariffCode;
+
+    @Valid
+    @NotNull
     @JsonProperty("from_location")
     LocationRequest fromLocation;
+
+    @Valid
+    @NotNull
     @JsonProperty("to_location")
     LocationRequest toLocation;
-    List<PackageRequest> packages;
 }

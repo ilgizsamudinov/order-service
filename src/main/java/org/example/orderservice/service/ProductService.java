@@ -1,7 +1,10 @@
 package org.example.orderservice.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.orderservice.dto.product.ProductDetailsView;
 import org.example.orderservice.dto.product.ProductResponse;
+import org.example.orderservice.dto.product.ProductListView;
+import org.example.orderservice.exception.NotFoundException;
 import org.example.orderservice.mapper.ProductMapper;
 import org.example.orderservice.model.Product;
 import org.example.orderservice.repository.ProductRepository;
@@ -38,11 +41,10 @@ public class ProductService  {
 
 
 
-    @Transactional(readOnly = true)
-    public Page<ProductResponse> getAllProducts(int page, int size) {
+   @Transactional(readOnly = true)
+    public Page<ProductListView> getAllProducts(int page, int size) {
         PageRequest pageable = PageRequest.of(page, size);
-        return productRepository.findAll(pageable)
-                .map(productMapper::toResponse);
+        return productRepository.findAllProducts(pageable);
     }
 
 
@@ -61,7 +63,8 @@ public class ProductService  {
 
 
     @Transactional(readOnly = true)
-    public ProductResponse getProductDetails(Long productId){
-        return productMapper.toResponse(getProductById(productId));
+    public ProductDetailsView getProductDetailsById(Long productId){
+        return productRepository.findProductDetailsById(productId)
+                .orElseThrow(()-> new NotFoundException("Product with id: " + productId + " not found!"));
     }
 }

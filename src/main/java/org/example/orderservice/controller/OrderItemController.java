@@ -4,7 +4,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.orderservice.dto.OrderItemRequest;
 import org.example.orderservice.dto.OrderItemResponse;
+import org.example.orderservice.dto.order.OrderWeightView;
 import org.example.orderservice.mapper.OrderItemMapper;
+import org.example.orderservice.model.Order;
 import org.example.orderservice.model.OrderItem;
 import org.example.orderservice.service.OrderItemService;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.math.BigDecimal;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,4 +41,16 @@ public class OrderItemController {
         OrderItem orderItem = orderItemService.getOrderItem(orderItemId);
         return ResponseEntity.ok(orderItemMapper.toResponse(orderItem));
     }
+
+
+    @GetMapping("/{orderId}/order-weight")
+    public ResponseEntity<BigDecimal> getOrderWeight(@PathVariable Long orderId) {
+        return ResponseEntity.ok(
+                orderItemService.getOrderWeight(orderId)
+        );
+    }
+
+
+
+
 }

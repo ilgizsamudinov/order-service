@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.orderservice.dto.product.ProductDetailsView;
 import org.example.orderservice.dto.product.ProductRequest;
 import org.example.orderservice.dto.product.ProductResponse;
+import org.example.orderservice.dto.product.ProductListView;
 import org.example.orderservice.mapper.ProductMapper;
 import org.example.orderservice.model.Product;
 import org.example.orderservice.service.ProductService;
@@ -33,7 +34,7 @@ public class ProductController {
 
 
     @GetMapping
-    public ResponseEntity<Page<ProductResponse>> getAllProducts(
+    public ResponseEntity<Page<ProductListView>> getAllProducts(
             @RequestParam int page,
             @RequestParam int size
     ) {
@@ -42,8 +43,8 @@ public class ProductController {
 
 
     @GetMapping("/{productId}")
-    public ResponseEntity<?> getProductDetails(@PathVariable Long productId) {
-        return ResponseEntity.ok(productService.getProductDetails(productId));
+    public ResponseEntity<ProductDetailsView> getProductDetails(@PathVariable Long productId) {
+        return ResponseEntity.ok(productService.getProductDetailsById(productId));
     }
 
 

@@ -1,4 +1,4 @@
-package org.example.orderservice.model;
+package org.example.orderservice.model.enums;
 
 public enum ShipmentStatus {
     CREATED,

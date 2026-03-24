@@ -2,6 +2,8 @@ package org.example.orderservice.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.orderservice.model.persistence.converter.CarrierTypeConverter;
+import org.example.orderservice.model.enums.CarrierType;
 
 import java.math.BigDecimal;
 
@@ -28,10 +30,10 @@ public class Shipment {
 
 
     @Column(nullable = false)
-    private String originAddress;
+    private String fromLocation;
 
     @Column(nullable = false)
-    private String destinationAddress;
+    private String toLocation;
 
     @Column(nullable = false, precision = 10, scale = 3)
     private BigDecimal totalWeight;

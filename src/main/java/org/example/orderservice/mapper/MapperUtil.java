@@ -11,8 +11,6 @@ public class MapperUtil {
         OrderResponse orderResponse = new OrderResponse();
         orderResponse.setId(view.getId());
         orderResponse.setCreatedAt(view.getCreatedAt());
-        orderResponse.setUsername(view.getUsername());
-        orderResponse.setTotalAmount(view.getTotalAmount());
         return orderResponse;
     }
 }

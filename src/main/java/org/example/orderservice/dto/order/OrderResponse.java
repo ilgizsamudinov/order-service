@@ -1,8 +1,9 @@
 package org.example.orderservice.dto.order;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 
@@ -10,19 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 public class OrderResponse {
-
     private Long id;
-
     private int orderStatusId;
-
-    private BigDecimal totalAmount;
-
-    private Long userId;
-
     private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
-    private String username;
-
-
 }

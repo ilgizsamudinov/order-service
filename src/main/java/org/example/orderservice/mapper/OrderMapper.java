@@ -19,8 +19,8 @@ public interface OrderMapper {
     @Mapping(target = "user", ignore = true)
     Order toEntity(OrderRequest orderRequest);
 
-//    @Mapping(target = "userId", source = "user.id")
-//    OrderResponse toResponse(Order order);
+
+    OrderResponse toResponse(Order order);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "id", ignore = true)

@@ -18,10 +18,6 @@ public class ShipmentResponse {
 
     private String carrierType;
 
-    private String originAddress;
-
-    private String destinationAddress;
-
     private BigDecimal totalWeight;
 
     private BigDecimal deliveryPrice;
