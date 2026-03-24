@@ -7,7 +7,9 @@ public interface ProductDetailsView {
     Long getId();
     String getTitle();
     String getDescription();
+    String getSku();
     BigDecimal getPrice();
     LocalDateTime getCreatedAt();
     LocalDateTime getUpdatedAt();
+    BigDecimal getWeight();
 }

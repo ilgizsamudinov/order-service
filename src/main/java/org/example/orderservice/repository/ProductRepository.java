@@ -1,7 +1,7 @@
 package org.example.orderservice.repository;
 
 import org.example.orderservice.dto.product.ProductDetailsView;
-import org.example.orderservice.dto.product.ProductResponse;
+import org.example.orderservice.dto.product.ProductListView;
 import org.example.orderservice.model.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,14 +15,17 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
+
     @Query(value = """
             select
                 p.id as id,
                 p.title as title,
                 p.description as description,
+                p.sku as sku,
                 p.price as price,
                 p.created_at as createdAt,
-                p.updated_at as updatedAt
+                p.updated_at as updatedAt,
+                p.weight as weight
             from products p
             where p.id = :id
             """, nativeQuery = true)
@@ -34,8 +37,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             select
                 p.id as id,
                 p.title as title,
-                p.description as description,
-                p.price as price
+                p.price as price,
+                p.sku as sku
             from products p
             """,
             countQuery = """
@@ -44,5 +47,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             """,
             nativeQuery = true
     )
-    Page<ProductResponse> findAllProducts(Pageable pageable);
+    Page<ProductListView> findAllProducts(Pageable pageable);
 }

@@ -2,6 +2,8 @@ package org.example.orderservice.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.orderservice.model.persistence.converter.OrderStatusConverter;
+import org.example.orderservice.model.enums.OrderStatus;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

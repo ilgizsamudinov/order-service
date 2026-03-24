@@ -36,4 +36,11 @@ public class DeliveryTariff {
 
     @Column(nullable = false, name = "extra_per_kg", precision = 10, scale = 2)
     private BigDecimal extraPricePerKg;
+
+
+    @Column(nullable = false, name = "min_distance_km")
+    private Integer minDistanceKm;
+
+    @Column(nullable = false, name = "max_distance_km")
+    private Integer maxDistanceKm;
 }

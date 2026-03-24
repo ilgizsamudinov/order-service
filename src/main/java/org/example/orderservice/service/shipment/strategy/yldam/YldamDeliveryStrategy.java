@@ -46,27 +46,38 @@ public class YldamDeliveryStrategy implements DeliveryStrategy {
         City toLocationCity = cityService.getCityByCode(tariffRequest.getToLocation().code());
 
 
+        Double distance = DistanceCalculator.calculate(
+                fromLocationCity.getLatitude(),
+                fromLocationCity.getLongitude(),
+                toLocationCity.getLatitude(),
+                toLocationCity.getLongitude()
+        );
+
+        System.out.println(distance);
+
         DeliveryTariff deliveryTariff = deliveryTariffRepository
-                .findByCarrierType(
-                        tariffRequest.getCarrierType()
+                .findByCarrierAndDistance(
+                        tariffRequest.getCarrierType().getCode(),
+                        distance
                 )
                 .orElseThrow(() -> new NotFoundException(
                         "Tariff not found for carrier=" + tariffRequest.getCarrierType()
-
                 ));
 
-
         if (orderWeight.compareTo(deliveryTariff.getBaseWeight()) <= 0) {
-            return new DeliveryCalculationResponse(deliveryTariff.getBasePrice(), deliveryTariff.getCarrierType());
+            return new DeliveryCalculationResponse(
+                    deliveryTariff.getBasePrice(),
+                    deliveryTariff.getCarrierType()
+            );
         }
 
         BigDecimal extraWeight = orderWeight.subtract(deliveryTariff.getBaseWeight());
         BigDecimal extraKg = extraWeight.setScale(0, RoundingMode.CEILING);
 
-
-        return new DeliveryCalculationResponse(deliveryTariff.getBasePrice()
-                .add(extraKg.multiply(deliveryTariff.getExtraPricePerKg())), deliveryTariff.getCarrierType());
-
+        return new DeliveryCalculationResponse(
+                deliveryTariff.getBasePrice()
+                        .add(extraKg.multiply(deliveryTariff.getExtraPricePerKg())),
+                deliveryTariff.getCarrierType()
+        );
     }
-
 }

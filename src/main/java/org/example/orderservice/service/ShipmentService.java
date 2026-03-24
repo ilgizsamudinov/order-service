@@ -53,8 +53,8 @@ public class ShipmentService {
         Shipment shipment = Shipment.builder()
                 .order(order)
                 .carrierType(deliveryCalculationResponse.getCarrierType())
-                .originAddress(String.valueOf(shipmentRequest.getFromLocation().code()))
-                .destinationAddress(String.valueOf(shipmentRequest.getToLocation().code()))
+                .fromLocation(String.valueOf(shipmentRequest.getFromLocation().code()))
+                .toLocation(String.valueOf(shipmentRequest.getToLocation().code()))
                 .totalWeight(orderWeight)
                 .deliveryPrice(deliveryCalculationResponse.getPrice())
                 .build();

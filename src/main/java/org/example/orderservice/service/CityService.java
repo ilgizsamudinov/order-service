@@ -2,6 +2,7 @@ package org.example.orderservice.service;
 
 
 import lombok.RequiredArgsConstructor;
+import org.example.orderservice.exception.NotFoundException;
 import org.example.orderservice.service.shipment.strategy.cdec.client.CdekApiClient;
 import org.example.orderservice.service.shipment.strategy.cdec.dto.CdekCityResponse;
 import org.example.orderservice.model.City;
@@ -37,5 +38,11 @@ public class CityService {
 
             cityRepository.save(city);
         }
+    }
+
+
+
+    public City  getCityByCode(Integer code){
+        return cityRepository.findByCode(code).orElseThrow(()-> new NotFoundException("City not found"));
     }
 }

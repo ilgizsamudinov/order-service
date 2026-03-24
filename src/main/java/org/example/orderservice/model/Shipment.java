@@ -30,10 +30,10 @@ public class Shipment {
 
 
     @Column(nullable = false)
-    private String originAddress;
+    private String fromLocation;
 
     @Column(nullable = false)
-    private String destinationAddress;
+    private String toLocation;
 
     @Column(nullable = false, precision = 10, scale = 3)
     private BigDecimal totalWeight;

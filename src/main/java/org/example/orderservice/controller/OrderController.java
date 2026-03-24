@@ -1,6 +1,7 @@
 package org.example.orderservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.orderservice.dto.order.OrderDetailsResponse;
 import org.example.orderservice.dto.order.OrderListView;
 import org.example.orderservice.dto.order.OrderResponse;
 import org.example.orderservice.mapper.OrderMapper;
@@ -20,16 +21,16 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping("/{userId}/user")
-    public ResponseEntity<Order> createOrder(@PathVariable Long userId) {
+    public ResponseEntity<OrderResponse> createOrder(@PathVariable Long userId) {
         Order createdOrder = orderService.createOrder(userId);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(createdOrder);
+                .body(orderMapper.toResponse(createdOrder));
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<Order> getOrder(@PathVariable Long orderId) {
-        return ResponseEntity.ok(orderService.getOrderById(orderId));
+    public ResponseEntity<OrderDetailsResponse> getOrder(@PathVariable Long orderId) {
+        return ResponseEntity.ok(orderService.getOrderDetailsById(orderId));
     }
 
     @GetMapping
@@ -39,6 +40,5 @@ public class OrderController {
     {
         return ResponseEntity.ok(orderService.getAllOrders(page, size));
     }
-
 
 }

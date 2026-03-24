@@ -38,8 +38,17 @@ public class OrderItemService {
     }
 
 
+
+    @Transactional(readOnly = true)
     public OrderItem getOrderItem(Long orderItem) {
         return orderItemRepository.findById(orderItem).orElseThrow(() -> new NotFoundException("Order item not found"));
+    }
+
+
+
+    @Transactional(readOnly = true)
+    public BigDecimal getOrderWeight(Long orderId){
+        return orderItemRepository.getOrderWeightById(orderId);
     }
 
 

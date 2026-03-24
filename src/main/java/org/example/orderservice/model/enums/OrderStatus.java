@@ -1,4 +1,4 @@
-package org.example.orderservice.model;
+package org.example.orderservice.model.enums;
 
 import java.util.Arrays;
 import java.util.Map;

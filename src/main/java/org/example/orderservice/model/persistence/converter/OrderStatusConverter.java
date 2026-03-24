@@ -1,7 +1,8 @@
-package org.example.orderservice.model;
+package org.example.orderservice.model.persistence.converter;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
+import org.example.orderservice.model.enums.OrderStatus;
 
 @Converter(autoApply = false)
 public class OrderStatusConverter implements AttributeConverter<OrderStatus, Integer> {
